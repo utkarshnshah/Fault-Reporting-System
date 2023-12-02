@@ -1,0 +1,155 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Fault Reporting System</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/FaultReportingSystem.styles.css" asp-append-version="true" />
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-md border-bottom box-shadow mb-3">
+            <div class="container">
+                <div class="navbar-brand fs-4"><i><u class="fs-3">F</u>ault <u class="fs-3">R</u>eporting <u class="fs-3">S</u>ystem</i></div>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse"></div>
+                <ul class="navbar-nav ml-auto fw-bold">
+                    <li class="nav-item">
+                        <a class="nav-link border p-2" asp-area="" asp-controller="Home" asp-action="Login">Home</a>
+                    </li>
+                    @{
+                        int? ActiveId = ViewData["LoggedUserId"] as int?;
+                        if (ActiveId.HasValue)
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link border p-2" asp-area="" asp-controller="SoftwareProducts" asp-action="Index">Products</a>
+                            </li>
+                        }
+                        string? ActiveUserType = ViewData["LoggedUserType"] as string;
+                        if (ActiveId.HasValue)
+                        {
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle border p-2" href="#" id="FaultsManagementDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Faults
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="FaultsManagementDropdown">
+                                    @if (ActiveUserType == "Customer")
+                                    {
+                                        <a class="dropdown-item fw-bold" asp-area="" asp-controller="Faults" asp-action="CreateFault">Report New Fault</a>
+                                    }
+                                    @if (ActiveUserType == "Manager" || ActiveUserType == "HelpDesk")
+                                    {
+                                        <a class="dropdown-item fw-bold" asp-area="" asp-controller="Faults" asp-action="Create">Report New Fault</a>
+                                    }
+                                    @if (ActiveId.HasValue && ActiveUserType == "Customer")
+                                    {
+                                        <a class="dropdown-item fw-bold" asp-area="" asp-controller="Faults" asp-action="MyFaults">My Faults</a>
+                                    }
+                                    @if (ActiveUserType == "Developer")
+                                    {
+                                        <a class="dropdown-item fw-bold" asp-area="" asp-controller="Faults" asp-action="DevelopersFaults">My Assigned Faults</a>
+                                    }
+                                    @if (ActiveUserType == "Manager" || ActiveUserType == "HelpDesk" || ActiveUserType == "SystemAdministrator")
+                                    {
+                                        <a class="dropdown-item fw-bold" asp-area="" asp-controller="Faults" asp-action="Index">All Faults</a>
+                                    }
+                                    @if (ActiveUserType == "Manager")
+                                    {
+                                        <a class="dropdown-item fw-bold" asp-area="" asp-controller="Reports" asp-action="AllOpenFaults">All Open Faults</a>
+                                        <a class="dropdown-item fw-bold" asp-area="" asp-controller="Reports" asp-action="AllClosedFaults">All Closed Faults</a>
+                                        <a class="dropdown-item fw-bold" asp-area="" asp-controller="FaultLogs" asp-action="Index">All Fault Logs</a>
+                                    }
+                                </div>
+                            </li>
+                        }
+                        if (ActiveUserType == "Manager" || ActiveUserType == "HelpDesk" || ActiveUserType == "SystemAdministrator")
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link border p-2 fw-bold" asp-area="" asp-controller="Customers" asp-action="Index">Customers</a>
+                            </li>
+                        }
+                        if (ActiveUserType == "Manager")
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link border p-2 fw-bold" asp-area="" asp-controller="Reports" asp-action="Index">Reports</a>
+                            </li>
+                        }
+                        if (ActiveUserType == "Manager" || ActiveUserType == "SystemAdministrator")
+                        {
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle border p-2 fw-bold" href="#" id="EmployeesManagementDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Employees
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="EmployeesManagementDropdown">
+                                    <a class="dropdown-item border p-2 fw-bold" asp-area="" asp-controller="HelpDesks" asp-action="Index">Help Desk Staff</a>
+                                    <a class="dropdown-item border p-2 fw-bold" asp-area="" asp-controller="Developers" asp-action="Index">Developers</a>
+                                    <a class="dropdown-item border p-2 fw-bold" asp-area="" asp-controller="Managers" asp-action="Index">Managers</a>
+                                    <a class="dropdown-item border p-2 fw-bold" asp-area="" asp-controller="SystemAdministrators" asp-action="Index">System Administrators</a>
+                                </div>
+                            </li>
+                        }
+                        if (ActiveId.HasValue)
+                        {
+                        }
+                        else
+                        {
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle border p-2 fw-bold" href="#" id="EmployeesLoginDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Employee Login
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="EmployeesLoginDropdown">
+                                    <a class="dropdown-item border p-2 fw-bold" asp-area="" asp-controller="Home" asp-action="HelpDeskStaffLogin">Help Desk Staff</a>
+                                    <a class="dropdown-item border p-2 fw-bold" asp-area="" asp-controller="Home" asp-action="DeveloperLogin">Developer</a>
+                                    <a class="dropdown-item border p-2 fw-bold" asp-area="" asp-controller="Home" asp-action="ManagerLogin">Manager</a>
+                                    <a class="dropdown-item border p-2 fw-bold" asp-area="" asp-controller="Home" asp-action="SystemAdministratorLogin">System Administrator</a>
+                                </div>
+                            </li>
+                        }
+                        if (ActiveId.HasValue)
+                        {
+                            <li class="nav-item dropdown mr-5 pr-5">
+                                <a class="nav-link dropdown-toggle border p-2 fw-bold" href="#" id="ProfileDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                @(ViewData["LoggedUserFirstName"] as string)
+                                </a>
+                                <div class="dropdown-menu dropdown-menu-end" aria-labelledby="ProfileLoginDropdown">
+                                    <a class="dropdown-item border p-2 fw-bold" asp-area="" asp-controller="Reports" asp-action="Profile">My Profile</a>
+                                    <form method="post" action="@Url.Action("Exit", "Home")">
+                                        <button class="dropdown-item border p-2 fw-bold" type="submit">Exit</button>
+                                    </form>
+                                </div>
+                            </li>
+                        }
+                        else
+                        {
+                        }
+                    }
+                </ul>
+            </div>
+        </nav>
+
+    </header>
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="border-top footer text-muted">
+        <div class="container">
+            &copy; 2023 - Fault Reporting System
+        </div>
+    </footer>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

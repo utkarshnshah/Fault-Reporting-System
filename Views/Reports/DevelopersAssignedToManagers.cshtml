@@ -1,0 +1,42 @@
+﻿@using FaultReportingSystem.ViewModels
+@model List<ManagerDeveloperFaultViewModel>
+
+<div class="container">
+    <h1 class="mb-4">Developers Assigned to Managers</h1>
+
+    @foreach (var managerViewModel in Model)
+    {
+        <div class="card mb-4">
+            <div class="card-header">
+                <h5>Manager: @managerViewModel.ManagerNameWithEmail</h5>
+            </div>
+            <hr />
+            <div class="card-body">
+                @if (managerViewModel.Developers.Any())
+                {
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Developer</th>
+                                <th>Open Fault Count</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var developerViewModel in managerViewModel.Developers)
+                            {
+                                <tr>
+                                    <td>@developerViewModel.DeveloperNameWithEmail</td>
+                                    <td>@developerViewModel.OpenFaultCount</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                }
+                else
+                {
+                    <p class="text-muted">No developers assigned to this manager.</p>
+                }
+            </div>
+        </div>
+    }
+</div>

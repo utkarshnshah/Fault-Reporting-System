@@ -1,0 +1,52 @@
+﻿@{
+    ViewData["Title"] = "My Profile";
+
+}
+<h1>My Profile</h1>
+<hr />
+@{
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">User Information</h5>
+            <hr />
+            <div class="row border-bottom mb-2">
+                <div class="col-md-3">
+                    <strong>First Name:</strong>
+                </div>
+                <div class="col-md-9">
+                    @ViewData["LoggedUserFirstName"]
+                </div>
+            </div>
+
+            <div class="row border-bottom mb-2">
+                <div class="col-md-3">
+                    <strong>Last Name:</strong>
+                </div>
+                <div class="col-md-9">
+                    @ViewData["LoggedUserLastName"]
+                </div>
+            </div>
+
+            <div class="row border-bottom mb-2">
+                <div class="col-md-3">
+                    <strong>User Type:</strong>
+                </div>
+                <div class="col-md-9">
+                    @ViewData["LoggedUserType"]
+                </div>
+            </div>
+
+            <div class="row border-bottom mb-2">
+                <div class="col-md-3">
+                    <strong>Email:</strong>
+                </div>
+                <div class="col-md-9">
+                    @ViewData["LoggedUserEmail"]
+                </div>
+            </div>
+        </div>
+    </div>
+}
+<div>
+    <a asp-action="Index" asp-controller="Home" class="btn btn-outline-secondary">Back</a>
+</div>

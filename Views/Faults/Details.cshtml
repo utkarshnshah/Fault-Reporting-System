@@ -1,0 +1,89 @@
+﻿@model FaultReportingSystem.Models.Fault
+
+@{
+    ViewData["Title"] = "Fault Details";
+    string? ActiveUserType = ViewData["LoggedUserType"] as string;
+}
+<div class="card">
+    <div class="card-header fs-4">
+        Fault F-@Html.DisplayFor(model => model.FaultId) Details
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-6">
+                <dl class="row">
+                    <dt class="col-sm-4">Date Reported:</dt>
+                    <dd class="col-sm-8">@Html.DisplayFor(model => model.DateReported)</dd>
+
+                    <dt class="col-sm-4">Priority:</dt>
+                    <dd class="col-sm-8">@Html.DisplayFor(model => model.Priority)</dd>
+
+                    <dt class="col-sm-4">Status:</dt>
+                    <dd class="col-sm-8">
+                        @{
+                            var FormattedStatus = Model.Status.ToString().Replace("_", " ");
+                        }   @Html.DisplayFor(_ => FormattedStatus)
+                    </dd>
+
+                    <dt class="col-sm-4">Closed On:</dt>
+                    <dd class="col-sm-8">@Html.DisplayFor(model => model.ClosedOn)</dd>
+
+                    <dt class="col-sm-4">Fault Type:</dt>
+                    <dd class="col-sm-8">
+                        @{
+                            var FormattedFaultType = Model.FaultType.ToString().Replace("_", " ");
+                        }   @Html.DisplayFor(_ => FormattedFaultType)
+                    </dd>
+
+                    <dt class="col-sm-4">Customer:</dt>
+                    <dd class="col-sm-8">@Html.DisplayFor(model => model.Customer.CustomerFullNameWithEmail)</dd>
+                    @if (ActiveUserType == "Manager" || ActiveUserType == "Developer" || ActiveUserType == "HelpDesk" || ActiveUserType == "SystemAdministrator")
+                    {
+                        <dt class="col-sm-4">Developer:</dt>
+                        <dd class="col-sm-8">@Html.DisplayFor(model => model.Developer.DeveloperFullNameWithEmail)</dd>
+                    }
+                    <dt class="col-sm-4">Help Desk:</dt>
+                    <dd class="col-sm-8">@Html.DisplayFor(model => model.HelpDesk.HelpDeskFullNameWithEmail)</dd>
+                </dl>
+            </div>
+
+            <div class="col-md-6">
+                <dl class="row">
+                    <dt class="col-sm-4">Problem:</dt>
+                    <dd class="col-sm-8">@Html.DisplayFor(model => model.Problem)</dd>
+
+                    <dt class="col-sm-4">Description:</dt>
+                    <dd class="col-sm-8">@Html.DisplayFor(model => model.Description)</dd>
+
+                    <dt class="col-sm-4">Report Method:</dt>
+                    <dd class="col-sm-8">@Html.DisplayFor(model => model.ReportMethod)</dd>
+
+                    <dt class="col-sm-4">Software Product:</dt>
+                    <dd class="col-sm-8">@Html.DisplayFor(model => model.SoftwareProduct.SoftwareProductIdWithName)</dd>
+                </dl>
+            </div>
+        </div>
+    </div>
+
+    <div class="card-footer">
+        <div class="d-flex justify-content-end">
+            @if (ActiveUserType == "Manager" || ActiveUserType == "Developer" || ActiveUserType == "HelpDesk" || ActiveUserType == "SystemAdministrator")
+            {
+                @Html.ActionLink("View Fault Logs", "ViewFaultLogs", "FaultLogs", new{ faultId = Model.FaultId }, new { @class = "btn btn-outline-primary me-2" })
+                <a asp-action="Edit" asp-route-id="@Model?.FaultId" class="btn btn-outline-primary me-2">Edit</a>
+            }
+            @if (ActiveUserType == "Manager" || ActiveUserType == "HelpDesk" || ActiveUserType == "SystemAdministrator")
+            {
+            <a asp-action="Index" class="btn btn-outline-secondary">Back</a>
+            }
+            @if (ActiveUserType == "Developer")
+            {
+                <a asp-action="DevelopersFaults" class="btn btn-outline-secondary">Back</a>
+            }
+            @if (ActiveUserType == "Customer")
+            {
+                <a asp-action="MyFaults" class="btn btn-outline-secondary">Back</a>
+            }
+        </div>
+    </div>
+</div>

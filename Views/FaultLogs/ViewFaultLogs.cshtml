@@ -1,0 +1,177 @@
+﻿@model FaultReportingSystem.Models.Fault
+
+@{
+    ViewData["Title"] = "Fault Logs";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    string? ActiveUserType = ViewData["LoggedUserType"] as string;
+    var FaultLogAddedMessage = TempData["FaultLogAddedMessage"] as string;
+    var FaultLogUpdatedMessage = TempData["FaultLogUpdatedMessage"] as string;
+    var FaultLogDeletedMessage = TempData["FaultLogDeletedMessage"] as string;
+}
+@{
+    if (ActiveUserType == "Manager" || ActiveUserType == "Developer")
+    {
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h1>Fault Logs</h1>
+            <a asp-action="Create" asp-controller="FaultLogs" asp-route-faultId="@Model.FaultId" asp-route-developerId="@Model.DeveloperId" class="btn btn-outline-primary">Add Fault Log</a>
+        </div>
+    }
+}
+<hr />
+@{
+    if (!string.IsNullOrEmpty(FaultLogAddedMessage))
+    {
+        <div class="alert alert-success alert-fade" role="alert">
+            @FaultLogAddedMessage
+        </div>
+    }
+    if (!string.IsNullOrEmpty(FaultLogUpdatedMessage))
+    {
+        <div class="alert alert-success alert-fade" role="alert">
+            @FaultLogUpdatedMessage
+        </div>
+    }
+    if (!string.IsNullOrEmpty(FaultLogDeletedMessage))
+    {
+        <div class="alert alert-success alert-fade" role="alert">
+            @FaultLogDeletedMessage
+        </div>
+    }
+}
+<div class="row">
+    <div class="col-md-6">
+        <h5>Fault Information</h5>
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-4 border-bottom">
+                        <span class="text-muted">Fault Id</span>
+                    </div>
+                    <div class="col-md-8 border-bottom">
+                        <span>F-@Model.FaultId</span>
+                    </div>
+
+                    <div class="col-md-4 border-bottom">
+                        <span class="text-muted">Reported On</span>
+                    </div>
+                    <div class="col-md-8 border-bottom">
+                        <span>@Model.DateReported</span>
+                    </div>
+
+                    <div class="col-md-4 border-bottom">
+                        <span class="text-muted">Software Product</span>
+                    </div>
+                    <div class="col-md-8 border-bottom">
+                        <span>@Html.DisplayFor(model => model.SoftwareProduct.SoftwareProductIdWithName)</span>
+                    </div>
+
+                    <div class="col-md-4 border-bottom">
+                        <span class="text-muted">Problem</span>
+                    </div>
+                    <div class="col-md-8 border-bottom">
+                        <span>@Model.Problem</span>
+                    </div>
+
+                    <div class="col-md-4 border-bottom">
+                        <span class="text-muted">Description</span>
+                    </div>
+                    <div class="col-md-8 border-bottom">
+                        <span>@Model.Description</span>
+                    </div>
+
+                    <div class="col-md-4 border-bottom">
+                        <span class="text-muted">Fault Type</span>
+                    </div>
+                    <div class="col-md-8 border-bottom">
+                        <span>@Model.FaultType.Replace("_", " ")</span>
+                    </div>
+
+                    <div class="col-md-4 border-bottom">
+                        <span class="text-muted">Priority</span>
+                    </div>
+                    <div class="col-md-8 border-bottom">
+                        <span>@Model.Priority</span>
+                    </div>
+
+                    <div class="col-md-4">
+                        <span class="text-muted">Status</span>
+                    </div>
+                    <div class="col-md-8">
+                        <span>@Model.Status.Replace("_", " ")</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="d-flex justify-content-end">
+            <a asp-action="Details" asp-controller="Faults" asp-route-id="@Model.FaultId" class="btn btn-outline-secondary">Back</a>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <h5>Logs</h5>
+        @if (Model.FaultLogs != null && Model.FaultLogs.Any())
+        {
+            <ul class="list-group">
+                @foreach (var log in Model.FaultLogs)
+                {
+                    <li class="list-group-item border-bottom">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <span class="text-muted">Log Date & Time</span>
+                            </div>
+                            <div class="col-md-8">
+                                <span>@log.DateTime</span>
+                            </div>
+
+                            <div class="col-md-4">
+                                <span class="text-muted">Action Performed</span>
+                            </div>
+                            <div class="col-md-8">
+                                <span>@log.Action</span>
+                            </div>
+
+                            <div class="col-md-4">
+                                <span class="text-muted">Developer</span>
+                            </div>
+                            <div class="col-md-8">
+                                <span>
+                                    @{
+                                        SelectList developersList = ViewBag.Developers;
+
+                                        int? developerId = log.DeveloperId;
+
+                                        var selectedDeveloper = developersList.FirstOrDefault(item => Convert.ToInt32(item.Value) == developerId);
+
+                                        if (selectedDeveloper != null)
+                                        {
+                                            @selectedDeveloper.Text
+                                        }
+                                        else if (developerId.HasValue)
+                                        {
+                                            @developerId
+                                        }
+                                        else
+                                        {
+                                        }
+                                    }
+                                </span>
+                            </div>
+                        </div>
+                        @{
+                            if (ActiveUserType == "Manager" || ActiveUserType == "Developer")
+                            {
+                                <div class="mt-2">
+                                    <a asp-action="Edit" asp-route-id="@log.LogId" class="btn btn-sm btn-outline-primary">Edit</a>
+                                    <a asp-action="Delete" asp-route-id="@log.LogId" class="btn btn-sm btn-outline-danger ml-2">Delete</a>
+                                </div>
+                            }
+                        }
+                    </li>
+                }
+            </ul>
+        }
+        else
+        {
+            <p class="mt-3 text-muted">No fault logs available for this fault.</p>
+        }
+    </div>
+</div>

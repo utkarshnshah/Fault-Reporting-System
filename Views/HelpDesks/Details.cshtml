@@ -1,0 +1,45 @@
+﻿@model FaultReportingSystem.Models.HelpDesk
+
+@{
+    ViewData["Title"] = "Help Desk Staff Details";
+}
+
+<h1>Help Desk Staff Details</h1>
+<div>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.HelpDeskFirstName)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.HelpDeskFirstName)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.HelpDeskLastName)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.HelpDeskLastName)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.HelpDeskEmail)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.HelpDeskEmail)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.HelpDeskPassword)
+        </dt>
+        <dd class = "col-sm-10">
+            ********
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.HelpDeskContactNumber)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.HelpDeskContactNumber)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Index" class="btn btn-outline-secondary">Back to List</a>
+</div>

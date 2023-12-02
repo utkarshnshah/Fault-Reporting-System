@@ -1,0 +1,47 @@
+﻿@model FaultReportingSystem.Models.Customer
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Add New Customer</h1>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="CustomerFirstName" class="control-label"></label>
+                <input asp-for="CustomerFirstName" class="form-control" required="required" />
+                <span asp-validation-for="CustomerFirstName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CustomerLastName" class="control-label"></label>
+                <input asp-for="CustomerLastName" class="form-control" required="required" />
+                <span asp-validation-for="CustomerLastName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CustomerEmail" class="control-label"></label>
+                <input asp-for="CustomerEmail" class="form-control" type="email" required="required" />
+                <span asp-validation-for="CustomerEmail" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CustomerPassword" class="control-label"></label>
+                <input asp-for="CustomerPassword" class="form-control" type="password" required="required" />
+                <span asp-validation-for="CustomerPassword" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CustomerContactNumber" class="control-label"></label>
+                <input asp-for="CustomerContactNumber" class="form-control" type="tel" />
+                <span asp-validation-for="CustomerContactNumber" class="text-danger"></span>
+            </div><br/>
+            <div class="form-group">
+                <input type="submit" value="Add New" class="btn btn-outline-primary" />
+                <a asp-action="Index" class="btn btn-outline-secondary">Back to List</a>
+            </div>
+        </form>
+    </div>
+</div>
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

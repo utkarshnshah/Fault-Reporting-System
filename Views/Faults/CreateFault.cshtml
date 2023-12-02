@@ -1,0 +1,83 @@
+﻿@model FaultReportingSystem.Models.Fault
+
+@{
+    ViewData["Title"] = "Report Fault - Customer";
+    int? ActiveId = ViewData["LoggedUserId"] as int?;
+    string? ActiveUserType = ViewData["LoggedUserType"] as string;
+}
+
+<h1>Report New Fault</h1>
+<hr />
+<div class="row">
+    <form asp-action="CreateFaultByCustomer">
+        <div class="row">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="col-3">
+                <div class="form-group">
+                    <label asp-for="SoftwareProductId" class="control-label"></label>
+                    <select asp-for="SoftwareProductId" class="form-control form-select" required="required" asp-items="ViewBag.SoftwareProducts">
+                        <option value="Select">Select</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-3">
+                <div class="form-group">
+                    <label asp-for="FaultType" class="control-label"></label>
+                    <select asp-for="FaultType" class="form-control form-select" required="required">
+                        @foreach (var value in Enum.GetValues(typeof(FaultType)))
+                        {
+                            <option value="@value">@Enum.GetName(typeof(FaultType), value).Replace("_", " ")</option>
+                        }
+                    </select>
+                    <span asp-validation-for="FaultType" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="col-6">
+                <div class="form-group">
+                    <label asp-for="Problem" class="control-label">Problem (Maximum 250 Characters)</label>
+                    <input asp-for="Problem" class="form-control" maxlength="250" required="required" />
+                    <span asp-validation-for="Problem" class="text-danger"></span>
+                </div>
+            </div>
+        </div><br />
+        <div class="row">
+            <div class="col">
+                <div class="form-group">
+                    <label asp-for="Description" class="control-label">Description (Maximum 1000 Characters)</label>
+                    <textarea asp-for="Description" class="form-control" maxlength="1000"></textarea>
+                    <span asp-validation-for="Description" class="text-danger"></span>
+                </div>
+            </div>
+        </div><br />
+        <div class="row">
+            <div class="col-3">
+                <div class="form-group">
+                    <label asp-for="ReportMethod" class="control-label"></label>
+                    <select asp-for="ReportMethod" class="form-control form-select" required="required">
+                        <option value="Website" selected>Website</option>
+                    </select>
+                    <span asp-validation-for="ReportMethod" class="text-danger"></span>
+                </div>
+            </div>
+            <select asp-for="Priority" class="form-control form-select" required="required" hidden>
+                <option value="Undecided" selected>Undecided</option>
+            </select>
+            <div class="col-3">
+                <div class="form-group">
+                    <label asp-for="Status" class="control-label"></label>
+                    <select asp-for="Status" class="form-control form-select" required="required">
+                        <option value="New" selected>New</option>
+                    </select>
+                    <span asp-validation-for="Status" class="text-danger"></span>
+                </div>
+            </div>
+        </div><br />
+        <div class="row">
+            <div class="form-group">
+                <input type="submit" value="Report Fault" class="btn btn-outline-primary" />
+                <a asp-action="MyFaults" class="btn btn-outline-secondary">Back To My Faults</a>
+            </div>
+        </div>
+    </form>
+</div>
+

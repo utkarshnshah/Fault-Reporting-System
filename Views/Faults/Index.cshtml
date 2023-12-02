@@ -1,0 +1,83 @@
+﻿@model IEnumerable<FaultReportingSystem.Models.Fault>
+
+@{
+    ViewData["Title"] = "All Faults";
+    int? ActiveId = ViewData["LoggedUserId"] as int?;
+    string? ActiveUserType = ViewData["LoggedUserType"] as string;
+    var FaultModificationMessage = TempData["FaultModificationMessage"] as string;
+}
+
+<div class="d-flex justify-content-between align-items-center mb-2">
+    <h1>All Faults</h1>
+    @{  
+        if (ActiveId.HasValue)
+        {
+            if (ActiveUserType == "Customer" || ActiveUserType == "Manager" || ActiveUserType == "HelpDesk")
+            {
+                <a class="btn btn-outline-primary" role="button" asp-action="Create">Submit New</a>
+            }
+        }
+    }
+</div>
+<hr />
+@if (!string.IsNullOrEmpty(FaultModificationMessage))
+{
+    <div class="alert alert-success alert-fade" role="alert">
+        @FaultModificationMessage
+    </div>
+}
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.FaultId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DateReported)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SoftwareProduct)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Problem)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FaultType)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Priority)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Status)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    <a asp-action="Details" asp-route-id="@item.FaultId">F-@Html.DisplayFor(modelItem => item.FaultId)</a>
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DateReported)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SoftwareProduct.SoftwareProductIdWithName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Problem)
+                </td>
+                <td>
+                    @Html.Raw(item.FaultType.ToString().Replace("_", " "))
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Priority)
+                </td>
+                <td>
+                    @Html.Raw(item.Status.ToString().Replace("_", " "))
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

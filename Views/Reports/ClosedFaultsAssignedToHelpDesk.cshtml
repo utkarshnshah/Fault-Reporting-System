@@ -1,0 +1,113 @@
+﻿@model IEnumerable<FaultReportingSystem.Models.Fault>
+
+@{
+    ViewData["Title"] = "Closed Faults Assigned To Help Desk Staff";
+}
+
+<h1>Closed Faults Assigned To Help Desk Staff</h1>
+<h4>Help Desk Staff: @ViewBag.ClosedFaultsAssignedToHelpDeskStaffName</h4>
+<hr />
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.FaultId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DateReported)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SoftwareProduct)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Problem)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FaultType)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Priority)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Status)
+            </th>
+            @*             <th>
+            @Html.DisplayNameFor(model => model.Description)
+            </th>
+            *@
+            @*             <th>
+            @Html.DisplayNameFor(model => model.ClosedOn)
+            </th>
+            *@
+            @*             <th>
+            @Html.DisplayNameFor(model => model.ReportMethod)
+            </th>
+            <th>
+            @Html.DisplayNameFor(model => model.Customer)
+            </th>
+            <th>
+            @Html.DisplayNameFor(model => model.Developer)
+            </th>
+            <th>
+            @Html.DisplayNameFor(model => model.HelpDesk)
+            </th>
+            *@
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    <a asp-controller="Faults" asp-action="Details" asp-route-id="@item.FaultId">F-@Html.DisplayFor(modelItem => item.FaultId)</a>
+@*                     <a asp-action="Details" asp-route-id="@item.FaultId">F-@Html.DisplayFor(modelItem => item.FaultId)</a>
+ *@                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DateReported)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SoftwareProduct.SoftwareProductIdWithName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Problem)
+                </td>
+                <td>
+                    @Html.Raw(item.FaultType.ToString().Replace("_", " "))
+                    @* @Html.DisplayFor(modelItem => item.FaultType) *@
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Priority)
+                </td>
+                <td>
+                    @Html.Raw(item.Status.ToString().Replace("_", " "))
+                    @* @Html.DisplayFor(modelItem => item.Status)                *@
+                </td>
+
+                @*                 <td>
+            @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+            @Html.DisplayFor(modelItem => item.ClosedOn)
+            </td>
+            <td>
+            @Html.DisplayFor(modelItem => item.ReportMethod)
+            </td>
+            <td>
+            @Html.DisplayFor(modelItem => item.Customer.CustomerFullNameWithEmail)
+            </td>
+            <td>
+            @Html.DisplayFor(modelItem => item.Developer.DeveloperFullNameWithEmail)
+            </td>
+            <td>
+            @Html.DisplayFor(modelItem => item.HelpDesk.HelpDeskFullNameWithEmail)
+            </td>
+            <td>
+            @*                     <a asp-action="Edit" asp-route-id="@item.FaultId">Edit</a>
+            <a asp-action="Delete" asp-route-id="@item.FaultId">Delete</a>
+
+            </td>
+            *@
+            </tr>
+        }
+    </tbody>
+</table>

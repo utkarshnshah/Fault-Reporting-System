@@ -1,0 +1,61 @@
+﻿@model IEnumerable<FaultReportingSystem.Models.Developer>
+
+@{
+    ViewData["Title"] = "Developers";
+    var DeveloperModificationMessage = TempData["DeveloperModificationMessage"] as string;
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1>Developers</h1>
+    <a asp-action="Create" class="btn btn-outline-primary">Add New Developer</a>
+</div>
+<hr />
+@if (!string.IsNullOrEmpty(DeveloperModificationMessage))
+{
+    <div class="alert alert-success alert-fade" role="alert">
+        @DeveloperModificationMessage
+    </div>
+}
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.DeveloperFirstName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DeveloperLastName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DeveloperEmail)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Manager)
+            </th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DeveloperFirstName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DeveloperLastName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DeveloperEmail)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Manager.ManagerFullNameWithEmail)
+                </td>
+                <td>
+                    <a asp-action="Edit" class="btn btn-outline-primary" asp-route-id="@item.DeveloperId">Edit</a>
+                    <a asp-action="Details" class="btn btn-outline-primary" asp-route-id="@item.DeveloperId">Details</a>
+                    <a asp-action="Delete" class="btn btn-outline-danger" asp-route-id="@item.DeveloperId">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

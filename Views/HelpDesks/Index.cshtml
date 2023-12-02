@@ -1,0 +1,61 @@
+﻿@model IEnumerable<FaultReportingSystem.Models.HelpDesk>
+
+@{
+    ViewData["Title"] = "Help Desk Staff";
+    var HelpDeskModificationMessage = TempData["HelpDeskModificationMessage"] as string;
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1>Help Desk Staff</h1>
+    <a asp-action="Create" class="btn btn-outline-primary">Add New Help Desk Staff</a>
+</div>
+<hr />
+@if (!string.IsNullOrEmpty(HelpDeskModificationMessage))
+{
+    <div class="alert alert-success alert-fade" role="alert">
+        @HelpDeskModificationMessage
+    </div>
+}
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.HelpDeskFirstName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.HelpDeskLastName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.HelpDeskEmail)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.HelpDeskContactNumber)
+            </th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.HelpDeskFirstName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.HelpDeskLastName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.HelpDeskEmail)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.HelpDeskContactNumber)
+                </td>
+                <td>
+                    <a asp-action="Edit" class="btn btn-outline-primary" asp-route-id="@item.HelpDeskId">Edit</a>
+                    <a asp-action="Details" class="btn btn-outline-primary" asp-route-id="@item.HelpDeskId">Details</a>
+                    <a asp-action="Delete" class="btn btn-outline-danger" asp-route-id="@item.HelpDeskId">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

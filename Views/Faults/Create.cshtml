@@ -1,0 +1,210 @@
+﻿@model FaultReportingSystem.Models.Fault
+
+@{
+    ViewData["Title"] = "Report Fault - Employee";
+    string? ActiveUserType = ViewData["LoggedUserType"] as string;
+}
+
+<h1>Report New Fault</h1>
+<hr />
+<div class="row">
+    <form asp-action="Create">
+        <div class="row">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="col-3">
+                <div class="form-group">
+                    <label asp-for="DateReported" class="control-label"></label>
+                    <input asp-for="DateReported" class="form-control" required="required" />
+                    <span asp-validation-for="DateReported" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="col-3">
+                <div class="form-group">
+                    <label asp-for="SoftwareProductId" class="control-label"></label>
+                    <select asp-for="SoftwareProductId" class="form-control form-select" required="required" asp-items="ViewBag.SoftwareProducts">
+                        <option value="Select">Select</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-6">
+                <div class="form-group">
+                    <label asp-for="Problem" class="control-label"></label>
+                    <input asp-for="Problem" class="form-control" maxlength="250" required="required" />
+                    <span asp-validation-for="Problem" class="text-danger"></span>
+                </div>
+            </div>
+        </div><br />
+        <div class="row">
+            <div class="col">
+                <div class="form-group">
+                    <label asp-for="Description" class="control-label"></label>
+                    <textarea asp-for="Description" class="form-control" maxlength="1000" required="required"></textarea>
+                    <span asp-validation-for="Description" class="text-danger"></span>
+                </div>
+            </div>
+        </div><br />
+        <div class="row">
+            <div class="col-3">
+                <div class="form-group">
+                    <label asp-for="FaultType" class="control-label"></label>
+                    <select asp-for="FaultType" class="form-control form-select" required="required">
+                        @foreach (var value in Enum.GetValues(typeof(FaultType)))
+                        {
+                            <option value="@value">@Enum.GetName(typeof(FaultType), value).Replace("_", " ")</option>
+                        }
+                    </select>
+                    <span asp-validation-for="FaultType" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="col-3">
+                <div class="form-group">
+                    <label asp-for="ReportMethod" class="control-label"></label>
+                    <select asp-for="ReportMethod" class="form-control form-select" required="required">
+                        @foreach (var value in Enum.GetValues(typeof(ReportMethod)))
+                        {
+                            <option value="@value">@value</option>
+                        }
+                    </select>
+                    <span asp-validation-for="ReportMethod" class="text-danger"></span>
+                </div>
+            </div>
+            @if (ActiveUserType == "Manager" || ActiveUserType == "SystemAdministrator")
+            {
+                <div class="col-3">
+                    <div class="form-group">
+                        <label asp-for="Priority" class="control-label"></label>
+                        <select asp-for="Priority" class="form-control form-select" required="required">
+                            @foreach (var value in Enum.GetValues(typeof(PriorityLevel)))
+                            {
+                                <option value="@value">@value</option>
+                            }
+                        </select>
+                        <span asp-validation-for="Priority" class="text-danger"></span>
+                    </div>
+                </div>
+            }
+            @if (ActiveUserType == "Developer" || ActiveUserType == "HelpDesk")
+            {
+                <div class="col-3" style="display:none;">
+                    <div class="form-group">
+                        <label asp-for="Priority" class="control-label"></label>
+                        <select class="form-control form-select" disabled>
+                            <option value="" selected>Undecided</option>
+                        </select>
+                        <select asp-for="Priority" class="form-control form-select" required="required" style="display:none;">
+                            <option value="Undecided" selected>Undecided</option>
+                        </select>
+                        <span asp-validation-for="Priority" class="text-danger"></span>
+                    </div>
+                </div>
+            }
+            @if (ActiveUserType == "Manager" || ActiveUserType == "Developer")
+            {
+                <div class="col-3">
+                    <div class="form-group">
+                        <label asp-for="Status" class="control-label"></label>
+                        <select asp-for="Status" class="form-control form-select" required="required">
+                            @foreach (var value in Enum.GetValues(typeof(Status)))
+                            {
+                                <option value="@value">@Enum.GetName(typeof(Status), value).Replace("_", " ")</option>
+                            }
+                        </select>
+                        <span asp-validation-for="Status" class="text-danger"></span>
+                    </div>
+                </div>
+            }
+            @if (ActiveUserType == "HelpDesk" || ActiveUserType == "SystemAdministrator")
+            {
+                <div class="col-3">
+                    <div class="form-group">
+                        <label asp-for="Status" class="control-label"></label>
+                        <select asp-for="Status" class="form-control form-select" required="required">
+                            <option value="New" selected>New</option>
+                        </select>
+                        <span asp-validation-for="Status" class="text-danger"></span>
+                    </div>
+                </div>
+            }
+            @if (ActiveUserType == "HelpDesk" || ActiveUserType == "SystemAdministrator")
+            {
+                <div class="col-3">
+                    <div class="form-group">
+                        <label asp-for="HelpDeskId" class="control-label"></label>
+                        <select asp-for="HelpDeskId" class="form-control form-select" asp-items="ViewBag.HelpDesks">
+                            <option value="">Select</option>
+                        </select>
+                    </div>
+                </div>
+            }
+        </div>
+        <br />
+        <div class="row">
+            @if (ActiveUserType == "Manager" || ActiveUserType == "Developer")
+            {
+                <div class="col-3">
+                    <div class="form-group">
+                        <label asp-for="HelpDeskId" class="control-label"></label>
+                        <select asp-for="HelpDeskId" class="form-control form-select" asp-items="ViewBag.HelpDesks">
+                            <option value="">Select</option>
+                        </select>
+                    </div>
+                </div>
+            }
+            <div class="col-3">
+                <div class="form-group">
+                    <label asp-for="CustomerId" class="control-label"></label>
+                    <select asp-for="CustomerId" class="form-control form-select" asp-items="ViewBag.Customers">
+                        <option value="">Select</option>
+                    </select>
+                </div>
+            </div>
+            @if (ActiveUserType == "Manager")
+            {
+                <div class="col-3">
+                    <div class="form-group">
+                        <label asp-for="DeveloperId" class="control-label"></label>
+                        <select asp-for="DeveloperId" class="form-control form-select" asp-items="ViewBag.Developers">
+                            <option value="">Select</option>
+                        </select>
+                    </div>
+                </div>
+            }
+            @if (ActiveUserType == "Developer" || ActiveUserType == "HelpDesk" || ActiveUserType == "SystemAdministrator")
+            {
+                <div class="col-3">
+                    <div class="form-group">
+                        @* <label asp-for="DeveloperId" class="control-label"></label>
+                    <select class="form-control form-select" disabled>
+                    <option value="" selected>Select</option>
+                    </select> *@
+                        <select asp-for="DeveloperId" class="form-control form-select" style="display:none;">
+                            <option value="" selected>Select</option>
+                        </select>
+                    </div>
+                </div>
+            }
+            @if (ActiveUserType == "Developer")
+            {
+                <div class="col-3">
+                    <div class="form-group">
+                        <label asp-for="ClosedOn" class="control-label"></label>
+                        <input asp-for="ClosedOn" class="form-control form-select" />
+                        <span asp-validation-for="ClosedOn" class="text-danger"></span>
+                    </div>
+                </div>
+            }
+            @if (ActiveUserType == "Manager" || ActiveUserType == "HelpDesk" || ActiveUserType == "SystemAdministrator")
+            {
+                <input asp-for="ClosedOn" class="form-control form-select" type="hidden" />
+            }
+
+        </div>
+        <br />
+        <div class="row">
+            <div class="form-group">
+                <input type="submit" value="Report Fault" class="btn btn-outline-primary" />
+                <a asp-action="Index" class="btn btn-outline-secondary">Back</a>
+            </div>
+        </div>
+    </form>
+</div>

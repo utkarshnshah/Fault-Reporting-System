@@ -1,0 +1,93 @@
+﻿@model FaultReportingSystem.Models.Customer
+
+@{
+    ViewData["Title"] = "Register";
+}
+
+<div class="container">
+    <div class="row justify-content-center">
+        <h1 class="text-center mb-2">Customer Registration</h1>
+        <div class="col-md-4">
+            @if (TempData["RegistrationSuccessMessage"] != null)
+            {
+                <div class="alert alert-success" role="alert">
+                    @TempData["RegistrationSuccessMessage"]<br/>
+                    @Html.ActionLink("Click here to Login", "Login", "Home")
+                </div>
+            }
+            <form action="@Url.Action("RegisterCustomer", "Home")" method="post" class="needs-validation" novalidate="true">
+                <div class="form-group">
+                    <label asp-for="CustomerFirstName" class="control-label">First Name</label>
+                    <input asp-for="CustomerFirstName" class="form-control" maxlength="50" required="required" />
+                    <span asp-validation-for="CustomerFirstName" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="CustomerLastName" class="control-label">Last Name</label>
+                    <input asp-for="CustomerLastName" class="form-control" maxlength="50" required="required" />
+                    <span asp-validation-for="CustomerLastName" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="CustomerEmail" class="control-label">Email</label>
+                    <input asp-for="CustomerEmail" type="email" class="form-control" maxlength="250" required="required" />
+                    <span asp-validation-for="CustomerEmail" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="CustomerContactNumber" class="control-label">Contact Number</label>
+                    <input asp-for="CustomerContactNumber" type="tel" class="form-control" maxlength="25" required="required" />
+                    <span asp-validation-for="CustomerContactNumber" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="CustomerPassword" class="control-label">Password</label>
+                    <input asp-for="CustomerPassword" type="password" class="form-control" maxlength="50" required="required" pattern=".{8,}" title="Password must be at least 8 characters long!" />
+                    <span asp-validation-for="CustomerPassword" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label for="ConfirmPassword" class="control-label">Confirm Password</label>
+                    <input name="ConfirmPassword" id="ConfirmPassword" type="password" class="form-control" maxlength="50" required="required" pattern=".{8,}" title="Password must be at least 8 characters long!" />
+                    <span class="text-danger" id="confirmPasswordError"></span>
+                </div>
+                <br />
+                <div class="form-group d-grid">
+                    <button type="submit" id="RegisterButton"class="btn btn-outline-primary">Register</button>
+                </div>
+            </form>
+            <div class="text-center mt-2">
+                <p>Already have an account? <a href="@Url.Action("Login", "Home")">Login here</a></p>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var password = document.getElementById("CustomerPassword");
+            var confirmPassword = document.getElementById("ConfirmPassword");
+            var confirmPasswordError = document.getElementById("confirmPasswordError");
+            var registerButton = document.getElementById("registerButton");
+
+            function validatePassword() {
+                if (password.value !== confirmPassword.value) {
+                    confirmPasswordError.textContent = "Password and Confirm Password do not match!";
+                    RegisterButton.disabled = true;
+                } else {
+                    confirmPasswordError.textContent = "";
+                    RegisterButton.disabled = false;
+                }
+            }
+
+            password.addEventListener('input', validatePassword);
+            confirmPassword.addEventListener('input', validatePassword);
+
+            registerButton.addEventListener('click', function () {
+                document.querySelector('form').submit();
+            });
+        });
+    </script>
+}

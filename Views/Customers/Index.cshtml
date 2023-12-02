@@ -1,0 +1,69 @@
+﻿@model IEnumerable<FaultReportingSystem.Models.Customer>
+
+@{
+    ViewData["Title"] = "Customers";
+    var CustomerAddedMessage = TempData["CustomerAddedMessage"] as string;
+    var CustomerDetailsUpdatedMessage = TempData["CustomerDetailsUpdatedMessage"] as string;
+    var CustomerDeletedMessage = TempData["CustomerDeletedMessage"] as string;
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1>Customers</h1>
+    <a asp-action="Create" class="btn btn-outline-primary">Add New Customer</a>
+</div>
+<hr />
+@if (!string.IsNullOrEmpty(CustomerAddedMessage))
+{
+    <div class="alert alert-success alert-fade" role="alert">
+        @CustomerAddedMessage
+    </div>
+}
+@if (!string.IsNullOrEmpty(CustomerDetailsUpdatedMessage))
+{
+    <div class="alert alert-success alert-fade" role="alert">
+        @CustomerDetailsUpdatedMessage
+    </div>
+}
+@if (!string.IsNullOrEmpty(CustomerDeletedMessage))
+{
+    <div class="alert alert-success alert-fade" role="alert">
+        @CustomerDeletedMessage
+    </div>
+}
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.CustomerFirstName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CustomerLastName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CustomerEmail)
+            </th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CustomerFirstName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CustomerLastName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CustomerEmail)
+                </td>
+                <td>
+                    <a asp-action="Edit" class="btn btn-outline-primary" asp-route-id="@item.CustomerId">Edit</a>
+                    <a asp-action="Details" class="btn btn-outline-primary" asp-route-id="@item.CustomerId">Details</a>
+                    <a asp-action="Delete" class="btn btn-outline-danger" asp-route-id="@item.CustomerId">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

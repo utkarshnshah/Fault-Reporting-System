@@ -1,0 +1,70 @@
+﻿@model IEnumerable<FaultReportingSystem.Models.Fault>
+
+@{
+    ViewData["Title"] = "My Assigned Faults";
+    var FaultUpdatedMessage = TempData["FaultUpdatedMessage"] as string;
+}
+
+<h1>My Assigned Faults</h1>
+<hr />
+@if (!string.IsNullOrEmpty(FaultUpdatedMessage))
+{
+    <div class="alert alert-success alert-fade" role="alert">
+        @FaultUpdatedMessage
+    </div>
+}
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.FaultId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DateReported)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SoftwareProduct)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Problem)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FaultType)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Priority)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Status)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    <a asp-controller="Faults" asp-action="Details" asp-route-id="@item.FaultId">F-@Html.DisplayFor(modelItem => item.FaultId)</a>
+               </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DateReported)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SoftwareProduct.SoftwareProductIdWithName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Problem)
+                </td>
+                <td>
+                    @Html.Raw(item.FaultType.ToString().Replace("_", " "))
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Priority)
+                </td>
+                <td>
+                    @Html.Raw(item.Status.ToString().Replace("_", " "))
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -1,0 +1,61 @@
+﻿@{
+    ViewData["Title"] = "Reports";
+}
+<div class="row">
+    <div class="col-7">
+        <h1>Reports </h1>
+    </div>
+    <div class="col-5 text-right">
+        <a class="btn btn-outline-primary align-content-end" asp-area="" asp-controller="Reports" asp-action="AllOpenFaults">View All Open Faults</a>
+        <a class="btn btn-outline-primary align-content-end" asp-area="" asp-controller="Reports" asp-action="AllClosedFaults">View All Closed Faults</a>
+    </div>
+</div>
+<hr />
+<div class="row">
+    <div class="d-grid gap-2 d-flex justify-content-end">
+    </div>
+</div>
+<br />
+<div class="row">
+    <form asp-controller="Reports" asp-action="OpenFaultsAssignedToDeveloper" method="post">
+        <div class="input-group mb-3">
+            <label class="input-group-text col-5"><strong>Open Faults Assigned To Developer</strong></label>
+            @Html.DropDownList("SelectedDeveloperId", ViewBag.Developers as SelectList, "Select Developer", new { @class = "form-select col-4", @required = "required"})
+            <button type="submit" class="btn btn-outline-primary col-3">View Report</button>
+        </div>
+    </form>
+    <form asp-controller="Reports" asp-action="OpenFaultsAssignedToHelpDesk" method="post">
+        <div class="input-group mb-3">
+            <label class="input-group-text col-5"><strong>Open Faults Assigned To Help Desk Staff</strong></label>
+            @Html.DropDownList("SelectedHelpDeskStaffId", ViewBag.HelpDesks as SelectList, "Select Help Desk Staff", new { @class = "form-select col-4", @required = "required"})
+            <button type="submit" class="btn btn-outline-primary col-3">View Report</button>
+        </div>
+    </form>
+    <form asp-controller="Reports" asp-action="ClosedFaultsAssignedToDeveloper" method="post">
+        <div class="input-group mb-3">
+            <label class="input-group-text col-5"><strong>Closed Faults Assigned To Developer</strong></label>
+            @Html.DropDownList("SelectedDeveloperId", ViewBag.Developers as SelectList, "Select Developer", new { @class = "form-select col-4", @required = "required"})
+            <button type="submit" class="btn btn-outline-primary col-3">View Report</button>
+        </div>
+    </form>
+    <form asp-controller="Reports" asp-action="ClosedFaultsAssignedToHelpDesk" method="post">
+        <div class="input-group mb-3">
+            <label class="input-group-text col-5"><strong>Closed Faults Assigned To Help Desk Staff</strong></label>
+            @Html.DropDownList("SelectedHelpDeskStaffId", ViewBag.HelpDesks as SelectList, "Select Help Desk Staff", new { @class = "form-select col-4", @required = "required"})
+            <button type="submit" class="btn btn-outline-primary col-3">View Report</button>
+        </div>
+    </form>
+
+    <form asp-controller="Reports" asp-action="AllFaultsReportedForAProduct" method="post">
+        <div class="input-group mb-3">
+            <label class="input-group-text col-5"><strong>All Faults Reported For A Software Product</strong></label>
+            @Html.DropDownList("SelectedSoftwareProductId", ViewBag.SoftwareProducts as SelectList, "Select Software Product", new { @class = "form-select col-4", @required = "required"})
+            <button type="submit" class="btn btn-outline-primary col-3">View Report</button>
+        </div>
+    </form>
+
+    <div class="input-group mb-3">
+        <label class="input-group-text col-9" for="inputGroupSelect06"><strong>List Of Developers With Managers And Faults</strong></label>
+        <a class="btn btn-outline-primary col-3" asp-area="" asp-controller="Reports" asp-action="DevelopersAssignedToManagers">View Report</a>
+    </div>
+</div>
