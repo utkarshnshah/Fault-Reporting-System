@@ -1,4 +1,4 @@
-# Fault-Reporting-System (FRS)
+# Fault Reporting System (FRS)
 
 Introducing the Fault Reporting System (FRS) – a groundbreaking a web app solution designed specifically for software companies like yours! Developed with your needs in mind, this freely accessible app empowers organizations to efficiently track and resolve faults through a centralized database.
 
